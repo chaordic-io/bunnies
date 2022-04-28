@@ -1,59 +1,67 @@
 package option
 
-type optional[A any] struct {
+// option is the package private struct that implements Optional
+type option[A any] struct {
 	theValue *A
 }
 
-type Option[A any] interface {
+// Optional is a type that may or may not contain a value and allows the user to safely operate on this assumption.
+type Optional[A any] interface {
 	GetOrElse(defaultVal A) A
+	//IsEmpty tells if this optional is empty or contains a value
 	IsEmpty() bool
 	value() A
 }
 
-func (opt *optional[A]) IsEmpty() bool {
+//IsEmpty tells if this optional is empty or contains a value
+func (opt *option[A]) IsEmpty() bool {
 	return opt.theValue == nil
 }
 
-func (opt *optional[A]) GetOrElse(defaultVal A) A {
+func (opt *option[A]) GetOrElse(defaultVal A) A {
 	if opt.IsEmpty() {
 		return defaultVal
 	}
 	return opt.value()
 }
-func (opt *optional[A]) value() A {
+
+//value is a package private method that takes the value out of the optional unsafely. Used for internal implementation.
+func (opt *option[A]) value() A {
 	return *opt.theValue
 }
 
-func Some[A any](val A) Option[A] {
-	return &optional[A]{&val}
+//Some is the Optional implementation of `Pure`, it constructs an Optional containing a value.
+func Some[A any](val A) Optional[A] {
+	return &option[A]{&val}
 }
 
-func None[A any]() Option[A] {
-	return &optional[A]{nil}
+//Empty constructs an Optional that contains no value
+func Empty[A any]() Optional[A] {
+	return &option[A]{nil}
 }
 
-func Map[A any, B any](opt Option[A], fn func(A) B) Option[B] {
+func Map[A any, B any](opt Optional[A], fn func(A) B) Optional[B] {
 	if opt.IsEmpty() {
-		return None[B]()
+		return Empty[B]()
 	}
 	bVal := fn(opt.value())
 	return Some(bVal)
 }
 
-func FlatMap[A any, B any](opt Option[A], fn func(A) Option[B]) Option[B] {
+func FlatMap[A any, B any](opt Optional[A], fn func(A) Optional[B]) Optional[B] {
 	if opt.IsEmpty() {
-		return None[B]()
+		return Empty[B]()
 	}
 	return fn(opt.value())
 }
 
-func Filter[A any](opt Option[A], fn func(A) bool) Option[A] {
+func Filter[A any](opt Optional[A], fn func(A) bool) Optional[A] {
 	if opt.IsEmpty() || !fn(opt.value()) {
-		return None[A]()
+		return Empty[A]()
 	}
 	return opt
 }
 
-func Exists[A any](opt Option[A], fn func(A) bool) bool {
+func Exists[A any](opt Optional[A], fn func(A) bool) bool {
 	return !Filter(opt, fn).IsEmpty()
 }

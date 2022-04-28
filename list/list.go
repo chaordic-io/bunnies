@@ -42,7 +42,18 @@ func FoldLeft[A any, B any](slice []A, initVal B, accumulator func(B, A) B) B {
 	return result
 }
 
-func Sort[A any](slice []A, f func(A, A) (A, A)) []A {
+func Map2[A any, B any, C any](slice1 []A, slice2 []B, f func(A, B) C) []C {
+	return FlatMap2(slice1, slice2, func(a A, b B) []C {
+		return []C{f(a, b)}
+	})
+}
 
-	return slice
+func FlatMap2[A any, B any, C any](slice1 []A, slice2 []B, f func(A, B) []C) []C {
+	result := []C{}
+	for _, v1 := range slice1 {
+		for _, v2 := range slice2 {
+			result = append(result, f(v1, v2)...)
+		}
+	}
+	return result
 }

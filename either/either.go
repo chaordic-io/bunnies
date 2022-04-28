@@ -1,5 +1,7 @@
 package either
 
+// Should either be (A, B) aliased
+
 type Either[A any, B any] interface {
 	IsLeft() bool
 	IsRight() bool
@@ -43,4 +45,4 @@ func Fold[A any, B any, C any](either Either[A, B], left func(A) C, right func(B
 	return right(either.right())
 }
 
-// MapRight, MapLeft, GetOrElse, GetLeftOrElse
+// Map, LeftMap, GetOrElse, GetLeftOrElse

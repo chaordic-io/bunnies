@@ -1,9 +1,13 @@
 package nonempty
 
-type NonEmptyList[A any] struct {
+import "github.com/chaordic-io/bunnies/list"
+
+type OneAnd[A any, B any] struct {
 	Head A
-	Tail []A
+	Tail B
 }
+
+type NonEmptyList[A any] OneAnd[A, []A]
 
 func One[A any](a A) NonEmptyList[A] {
 	return NonEmptyList[A]{Head: a, Tail: []A{}}
@@ -33,34 +37,33 @@ func Map[A any, B any](nel NonEmptyList[A], f func(A) B) NonEmptyList[B] {
 	return FlatMap(nel, fn)
 }
 
-func Sort[A any](nel NonEmptyList[A], f func(A, A) (A, A)) NonEmptyList[A] {
-
-	return nel
+func Filter[A any](nel NonEmptyList[A], f func(A) bool) []A {
+	fn := func(a A) []A {
+		if f(a) {
+			return []A{a}
+		}
+		return []A{}
+	}
+	in := []A{nel.Head}
+	return list.FlatMap(append(in, nel.Tail...), fn)
 }
 
-// func Filter[A any](slice []A, f func(A) bool) []A {
-// 	fn := func(a A) []A {
-// 		if f(a) {
-// 			return []A{a}
-// 		}
-// 		return []A{}
-// 	}
-// 	return FlatMap(slice, fn)
-// }
+func Exists[A any](nel NonEmptyList[A], f func(A) bool) bool {
+	if f(nel.Head) {
+		return true
+	}
+	for _, v := range nel.Tail {
+		if f(v) {
+			return true
+		}
+	}
+	return false
+}
 
-// func Exists[A any](slice []A, f func(A) bool) bool {
-// 	for _, v := range slice {
-// 		if f(v) {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
-// func FoldLeft[A any, B any](slice []A, initVal B, accumulator func(B, A) B) B {
-// 	result := initVal
-// 	for _, v := range slice {
-// 		result = accumulator(result, v)
-// 	}
-// 	return result
-// }
+func FoldLeft[A any, B any](nel NonEmptyList[A], initVal B, accumulator func(B, A) B) B {
+	result := accumulator(initVal, nel.Head)
+	for _, v := range nel.Tail {
+		result = accumulator(result, v)
+	}
+	return result
+}

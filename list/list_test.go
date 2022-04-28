@@ -39,3 +39,11 @@ func TestFoldLeft(t *testing.T) {
 		return i + j
 	}), 6)
 }
+
+func TestMap2(t *testing.T) {
+
+	assert.Equal(t, Map2([]string{"ha", "heh", "hmm"}, []string{"?", "!", "."}, func(a, b string) string {
+		return a + b
+	}), []string{"ha?", "ha!", "ha.", "heh?", "heh!", "heh.", "hmm?", "hmm!", "hmm."})
+
+}

@@ -8,17 +8,17 @@ import (
 )
 
 func TestFlatMap(t *testing.T) {
-	assert.Equal(t, FlatMap(Some(1), func(i int) Option[string] {
+	assert.Equal(t, FlatMap(Some(1), func(i int) Optional[string] {
 		return Some(fmt.Sprintf("no-%v", i))
 	}), Some("no-1"))
 
-	assert.Equal(t, FlatMap(Some(1), func(i int) Option[string] {
-		return None[string]()
-	}), None[string]())
+	assert.Equal(t, FlatMap(Some(1), func(i int) Optional[string] {
+		return Empty[string]()
+	}), Empty[string]())
 
-	assert.Equal(t, FlatMap(None[int](), func(i int) Option[string] {
+	assert.Equal(t, FlatMap(Empty[int](), func(i int) Optional[string] {
 		return Some(fmt.Sprintf("no-%v", i))
-	}), None[string]())
+	}), Empty[string]())
 }
 
 func TestMap(t *testing.T) {
@@ -27,7 +27,7 @@ func TestMap(t *testing.T) {
 	}
 	assert.Equal(t, Map(Some(1), mapFn), Some("no-1"))
 
-	assert.Equal(t, Map(None[int](), mapFn), None[string]())
+	assert.Equal(t, Map(Empty[int](), mapFn), Empty[string]())
 }
 
 func TestFilter(t *testing.T) {
@@ -37,7 +37,7 @@ func TestFilter(t *testing.T) {
 
 	assert.Equal(t, Filter(Some(2), func(i int) bool {
 		return i == 1
-	}), None[int]())
+	}), Empty[int]())
 }
 
 func TestExists(t *testing.T) {
@@ -51,11 +51,11 @@ func TestExists(t *testing.T) {
 }
 
 func TestIsEmpty(t *testing.T) {
-	assert.True(t, None[int]().IsEmpty())
+	assert.True(t, Empty[int]().IsEmpty())
 	assert.False(t, Some(1).IsEmpty())
 }
 
 func TestGetOrElse(t *testing.T) {
-	assert.Equal(t, None[int]().GetOrElse(2), 2)
+	assert.Equal(t, Empty[int]().GetOrElse(2), 2)
 	assert.Equal(t, Some(1).GetOrElse(2), 1)
 }
