@@ -26,13 +26,15 @@ The two main principles we follow are:
 * [Referential transparency](https://en.wikipedia.org/wiki/Referential_transparency)
 * Immutability
 
-This means in short, that the API's of this library will always produce the same inputs for the same outputs, given pure inputs.
+In short, this means the API's of this library will always produce the same outputs for the same inputs, given pure inputs.
 It also means that the library will never mutate function inputs, and return values will always be new values.
 
 ## Data Types
 ### List/Slice
+Just a regular Golang slice for all intents and purposes. It's the closest thing to a List and works just fine.
 ### NonEmptyList
 ### Optional
+`Optional` is a type which demarks a type which can either be empty, or contain a value, and allows a developer to operate typesafely under those assumptions.
 ### Either
 ## Functions
 
@@ -45,11 +47,12 @@ It also means that the library will never mutate function inputs, and return val
 #### Exists
 #### FlatMap2
 #### Map2
+#### IsEmpty
 ### List & NonEmpty only
 #### FoldLeft
 
 ### Option only
-#### IsEmpty
+
 #### GetOrElse
 ### Either only
 #### Fold

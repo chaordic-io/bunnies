@@ -47,3 +47,8 @@ func TestMap2(t *testing.T) {
 	}), []string{"ha?", "ha!", "ha.", "heh?", "heh!", "heh.", "hmm?", "hmm!", "hmm."})
 
 }
+
+func TestIsEmpty(t *testing.T) {
+	assert.True(t, IsEmpty([]string{}))
+	assert.False(t, IsEmpty([]string{"foo"}))
+}

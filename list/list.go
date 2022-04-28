@@ -57,3 +57,7 @@ func FlatMap2[A any, B any, C any](slice1 []A, slice2 []B, f func(A, B) []C) []C
 	}
 	return result
 }
+
+func IsEmpty[A any](slice []A) bool {
+	return len(slice) == 0
+}
