@@ -38,32 +38,81 @@ Just a regular Golang slice for all intents and purposes. It's the closest thing
 ### Either
 ## Functions
 
-### All types
-#### Pure
-#### Empty
-#### Map
-#### FlatMap
-#### Filter
-#### Exists
-#### FlatMap2
-#### Map2
-#### IsEmpty
-### List & NonEmpty only
-#### FoldLeft
+### Pure
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### Empty
+#### Supported Types
+* List
+* Optional
+### Map
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### FlatMap
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### Filter
+#### Supported Types
+* List
+* NonEmptyList
+* Optional
+### Exists
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### FlatMap2
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### Map2
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### IsEmpty
+#### Supported Types
+* List
+* Optional
+### GetOrElse
+#### Supported Types
+* Either
+* Optional
+### FoldLeft
+#### Supported Types
+* Either
+* List
+* NonEmptyList
+* Optional
+### Fold
+#### Supported Types
+* Either
 
-### Option only
+### LeftMap
+#### Supported Types
+* Either
 
-#### GetOrElse
-### Either only
-#### Fold
-#### LeftMap
-#### GetLeftOrElse
-
+### GetLeftOrElse
+#### Supported Types
+* Either
 
 # TODO
 - [x] `List` (just slice)
 - [x] `Option`
 - [ ] `Either`
-- [ ] `NonEmptyList`
+- [x] `NonEmptyList`
 - [ ] `IO`
 - [ ] `Validation`
