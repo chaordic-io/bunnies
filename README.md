@@ -33,11 +33,12 @@ It also means that the library will never mutate function inputs, and return val
 ### List/Slice
 Just a regular Golang slice for all intents and purposes. It's the closest thing to a List and works just fine.
 ### NonEmptyList
+A `NonEmptyList` denotes an list/slice like type, but comes with the guarantee that it always contains at least one value. This is useful as an indicator in many instances, as the presence of an empty slice might indicate a bug. For instance, if you know you have a validation error, you would expect to find a list of error messages that has at least one or more messages.
 ### Optional
 `Optional` is a type which demarks a type which can either be empty, or contain a value, and allows a developer to operate typesafely under those assumptions.
 ### Either
+`Either` like `Optional` has two possible values, but differs in that instead of `empty` it has a `Left` and a `Right` value where `Optional` has `Some`. `Either` is "right-biased", in that by convention, typically the `Right` value denotes successful states, while `Left` denotes various types of failure states. One use of `Either` would be for instance to chain operations that may fail, knowing they can terminate the chain at any point, but you do not have to deal with the failure until after the chain.
 ## Functions
-
 ### Pure
 #### Supported Types
 * Either
